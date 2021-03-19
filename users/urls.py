@@ -1,4 +1,4 @@
-"""personal_portfolio URL Configuration
+"""awesome_website URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -13,13 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from django.urls import include
+from django.urls import path, include
+from django.contrib.auth.urls import urlpatterns
+from django.conf.urls import url
+from users.views import dashboard
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("", include("projects.urls")),
-    path("blog/", include("blog.urls")),
-    path("users/", include("users.urls")),
+    path('', include('django.contrib.auth.urls')),
+    path('dashboard/', dashboard, name= "dashboard"),
+
+    #url(r"^accounts/", include("django.contrib.auth.urls")),
+    # path('admin/', admin.site.urls),
 ]

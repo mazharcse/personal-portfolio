@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<h3>Create post</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+<!--    {{post_form.as_p}}-->
+    <div class="form_group">
+        <p>Title {{post_form.title}} </p>
+        <p>Body {{post_form.body}} </p>
+        <p>Author {{post_form.author}} </p>
+<!--        <p>Categories {{post_form.categories}} </p>-->
+<!--        {% for category_item in formset %}-->
+
+<!--        {% endfor %}-->
+    </div>
+<!--    <input type = "submit" value="Save" />-->
+
+
+<!--    {{ formset.management_form }}-->
+<!--    {% for form in formset %}-->
+<!--        {{ form }}-->
+<!--    {% endfor %}-->
+<!--    {{images.as_p}}-->
+<!--    <input required name="images" type="file" multiple >-->
+    <input type="submit" name="submit" class="btn btn-primary" value="Submit" />
+</form>
+
+{% endblock %}
