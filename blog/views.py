@@ -1,7 +1,12 @@
 from django.shortcuts import render
 from blog.models import Post, Comment
 from .forms import CommentForm, PostForm
+from rest_framework import viewsets
+from personal_portfolio.serializers import PostSerializer, CommentSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 # Create your views here.
+
 
 
 def blog_index(request):
@@ -42,17 +47,17 @@ def blog_create(request):
 
     return render(request, "blog_create.html", my_context)
 
-def blog_category(request, category):
-    posts = Post.objects.filter(
-        categories__name__contains=category
-    ).order_by(
-        '-created_on'
-    )
-    context = {
-        "category": category,
-        "posts": posts
-    }
-    return render(request, "blog_category.html", context)
+# def blog_category(request, category):
+#     posts = Post.objects.filter(
+#         categories__name__contains=category
+#     ).order_by(
+#         '-created_on'
+#     )
+#     context = {
+#         "category": category,
+#         "posts": posts
+#     }
+#     return render(request, "blog_category.html", context)
 
 def blog_detail_old(request, pk):
     post = Post.objects.get(pk=pk)
@@ -87,3 +92,33 @@ def blog_detail(request, pk):
     }
     return render(request, "blog_detail.html", context)
 
+class PostViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticated,)
+
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+# class PostDetailViewSet(viewsets.ModelViewSet):
+#     queryset = Post.objects.get(pk=pk)
+#     serializer_class = PostSerializer
+
+
+
+
+
+
+# def get_(request, car_name):
+#     if request.method == 'GET':
+#         try:
+#             car = Car.objects.get(name=car_name)
+#             response = json.dumps([{ 'Car': car.name, 'Top Speed': car.top_speed}])
+#         except:
+#             response = json.dumps([{ 'Error': 'No car with that name'}])
+#     return HttpResponse(response, content_type='text/json')
